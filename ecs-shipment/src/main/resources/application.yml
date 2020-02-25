@@ -1,0 +1,9 @@
+server:
+  port: 8001
+  servlet:
+    context-path: /api/v1
+spring:
+  application:
+    name: ecs-shipment
+  profiles:
+    active: prod

@@ -1,0 +1,32 @@
+spring:
+  # MySQL Configuration
+  datasource:
+    url: jdbc:mysql://dev-database-1.csvkyiskksyu.ap-southeast-1.rds.amazonaws.com/demo?characterEncoding=utf8&useSSL=false
+    username: admin
+    password: abcd1234
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 15
+      auto-commit: true
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      pool-name: HikariCP
+      connection-test-query: SELECT 1
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+
+management:
+  endpoints:
+    web:
+      base-path: /manage
+
+kafka:
+  bootstrap:
+    servers: b-1.dev-cluster.s07eh2.c2.kafka.ap-southeast-1.amazonaws.com:9092,b-2.dev-cluster.s07eh2.c2.kafka.ap-southeast-1.amazonaws.com:9092
+  group:
+    id: group-1
