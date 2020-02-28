@@ -141,7 +141,7 @@
                 </executions>
                 <configuration>
                     <repository>aws/${project.name}</repository>
-                    <tag>${project.version}</tag>
+                    <tag>latest</tag>
                     <skipDockerInfo>true</skipDockerInfo>
                 </configuration>
             </plugin>
