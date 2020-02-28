@@ -136,8 +136,8 @@
                             <goal>push</goal>
                         </goals>
                         <configuration>
-                            <repository>379951292773.dkr.ecr.ap-southeast-1.amazonaws.com/ecs-order</repository>
-                            <tag>${project.docker.version}</tag>
+                            <!--<repository>379951292773.dkr.ecr.ap-southeast-1.amazonaws.com/ecs-order</repository>-->
+                            <!--<tag>${project.docker.version}</tag>-->
                             <dockerfile>Dockerfile</dockerfile>
                         </configuration>
                     </execution>
