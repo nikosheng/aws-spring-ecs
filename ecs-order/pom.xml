@@ -133,7 +133,6 @@
                         <goals>
                             <goal>build</goal>
                             <!-- <goal>push</goal> -->
-                            <goal>push</goal>
                         </goals>
                         <configuration>
                             <!--<repository>379951292773.dkr.ecr.ap-southeast-1.amazonaws.com/ecs-order</repository>-->
