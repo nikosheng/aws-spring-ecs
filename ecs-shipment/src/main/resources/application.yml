@@ -6,7 +6,7 @@ spring:
   application:
     name: ecs-shipment
   profiles:
-    active: test
+    active: prod
 
 management:
   endpoints:
