@@ -6,4 +6,18 @@ spring:
   application:
     name: ecs-shipment
   profiles:
-    active: prod
+    active: test
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    shutdown:
+      enabled: false
+

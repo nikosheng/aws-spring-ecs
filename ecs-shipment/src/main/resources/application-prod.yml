@@ -21,11 +21,6 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
 
-management:
-  endpoints:
-    web:
-      base-path: /manage
-
 kafka:
   bootstrap:
     #    servers: b-1.dev-cluster.s07eh2.c2.kafka.ap-southeast-1.amazonaws.com:9092,b-2.dev-cluster.s07eh2.c2.kafka.ap-southeast-1.amazonaws.com:9092

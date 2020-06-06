@@ -6,7 +6,7 @@ spring:
   application:
     name: ecs-order
   profiles:
-    active: prod
+    active: test
 
 management:
   endpoints:
