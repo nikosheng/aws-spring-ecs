@@ -1,4 +1,4 @@
-package ecs.shipment.utils;
+package ecs.shipment.model.serde;
 
 import ecs.shipment.model.Shipment;
 import org.springframework.kafka.support.serializer.JsonDeserializer;

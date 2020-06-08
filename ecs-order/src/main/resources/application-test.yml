@@ -27,3 +27,7 @@ kafka:
     servers: localhost:9092
   group:
     id: group-1
+
+variales:
+  shipment:
+    uri: http://localhost:8001

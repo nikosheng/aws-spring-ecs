@@ -1,4 +1,4 @@
-package ecs.order.h2;
+package ecs.order.config;
 
 import org.h2.tools.Server;
 import org.springframework.context.annotation.Bean;
