@@ -6,7 +6,7 @@ spring:
   application:
     name: ecs-order
   profiles:
-    active: prod
+    active: eks
 
 management:
   endpoints:
@@ -20,3 +20,4 @@ management:
       show-details: always
     shutdown:
       enabled: false
+

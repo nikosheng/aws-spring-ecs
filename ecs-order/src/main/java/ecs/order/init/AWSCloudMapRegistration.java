@@ -1,5 +1,6 @@
 package ecs.order.init;
 
+import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.services.servicediscovery.AWSServiceDiscovery;
 import com.amazonaws.services.servicediscovery.AWSServiceDiscoveryClient;
@@ -27,7 +28,7 @@ public class AWSCloudMapRegistration implements CommandLineRunner {
     private String cloudMapServiceId;
 
     @Autowired
-    private AWSStaticCredentialsProvider credentialsProvider;
+    private AWSCredentialsProvider credentialsProvider;
 
     @Override
     public void run(String... args) throws Exception {
