@@ -31,5 +31,5 @@ kafka:
 variales:
   order:
     uri: http://ecs-order.ecommerce.com:8000
-  shipment
+  shipment:
     uri: http://ecs-shipment.ecommerce.com:8001
