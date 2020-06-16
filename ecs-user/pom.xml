@@ -16,7 +16,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <project.version>0.1</project.version>
-        <project.name>ecs-shipment</project.name>
+        <project.name>ecs-user</project.name>
         <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
     </properties>
 
