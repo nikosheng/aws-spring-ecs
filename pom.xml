@@ -11,6 +11,7 @@
     <modules>
         <module>ecs-order</module>
         <module>ecs-shipment</module>
+        <module>ecs-user</module>
     </modules>
 
     <parent>
