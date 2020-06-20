@@ -30,6 +30,7 @@ public class UserController {
     @GetMapping("/user/{userId}/order/{orderId}")
     public OrderVO getOrder(@PathVariable Long userId, @PathVariable Long orderId) {
         LOGGER.info("User {} getOrder - {}", userId, orderId);
+        LOGGER.info("OrderHost: {}", orderHost);
 
         OrderVO order = null;
         if (userId != null) {
@@ -44,6 +45,7 @@ public class UserController {
     @GetMapping("/user/{userId}/shipment/{shipmentId}")
     public Shipment getShipment(@PathVariable Long userId, @PathVariable Long shipmentId) {
         LOGGER.info("User {} getShipment - {}", userId, shipmentId);
+        LOGGER.info("ShipmentHost: {}", shipmentHost);
 
         Shipment shipment = null;
         if (userId != null) {
