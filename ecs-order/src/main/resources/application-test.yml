@@ -31,3 +31,6 @@ kafka:
 variales:
   shipment:
     uri: http://localhost:8001
+
+version:
+  tag: test

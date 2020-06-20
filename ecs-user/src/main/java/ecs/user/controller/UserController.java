@@ -1,7 +1,7 @@
 package ecs.user.controller;
 
-import ecs.user.model.Order;
 import ecs.user.model.Shipment;
+import ecs.user.model.vo.OrderVO;
 import ecs.user.util.MapBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,14 +28,14 @@ public class UserController {
     private String orderHost;
 
     @GetMapping("/user/{userId}/order/{orderId}")
-    public Order getOrder(@PathVariable Long userId, @PathVariable Long orderId) {
+    public OrderVO getOrder(@PathVariable Long userId, @PathVariable Long orderId) {
         LOGGER.info("User {} getOrder - {}", userId, orderId);
 
-        Order order = null;
+        OrderVO order = null;
         if (userId != null) {
-            ResponseEntity<Order> responseEntity = restTemplate.getForEntity(
+            ResponseEntity<OrderVO> responseEntity = restTemplate.getForEntity(
                     orderHost + "/api/v1/order/get/{orderId}",
-                    Order.class, new MapBuilder.Builder<Long>().map("orderId", orderId).build().map());
+                    OrderVO.class, new MapBuilder.Builder<Long>().map("orderId", orderId).build().map());
             order = responseEntity.getBody();
         }
         return order;

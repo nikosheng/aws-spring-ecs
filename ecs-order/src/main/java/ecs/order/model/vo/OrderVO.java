@@ -1,41 +1,27 @@
-package ecs.order.model;
+package ecs.order.model.vo;
 
-import javax.persistence.*;
 import java.util.Date;
 
-@Entity
-@Table(name = "t_order")
-public class Order {
+public class OrderVO {
+    private String version;
 
-    @Id
-    @Column(name = "order_id")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long orderId;
 
-    @Column(name = "customer_id")
     private Long customerId;
 
-    @Column(name = "item_id")
     private Long itemId;
 
-    @Column(name = "shipment_id")
     private Long shipmentId;
 
-//    @Column(name = "shipment_address")
-    @Transient
     private String shipmentAddress;
 
-    @Column(name = "create_timestamp")
-    @Temporal(TemporalType.TIMESTAMP)
     private Date createTimestamp;
 
-    @Column(name = "update_timestamp")
-    @Temporal(TemporalType.TIMESTAMP)
     private Date updateTimestamp;
 
-    public Order(){}
+    public OrderVO(){}
 
-    public Order(Long orderId, Long customerId, Long itemId, Long shipmentId, Date createTimestamp, Date updateTimestamp) {
+    public OrderVO(Long orderId, Long customerId, Long itemId, Long shipmentId, Date createTimestamp, Date updateTimestamp) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.itemId = itemId;
@@ -44,14 +30,15 @@ public class Order {
         this.updateTimestamp = updateTimestamp;
     }
 
-    public Order(Long orderId, Long customerId, Long itemId, Long shipmentId) {
+    public OrderVO(Long orderId, Long customerId, Long itemId, Long shipmentId) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.itemId = itemId;
         this.shipmentId = shipmentId;
     }
 
-    public Order(OrderBuilder builder) {
+    public OrderVO(OrderVOBuilder builder) {
+        this.version = builder.version;
         this.orderId = builder.orderId;
         this.customerId = builder.customerId;
         this.itemId = builder.itemId;
@@ -61,7 +48,8 @@ public class Order {
         this.updateTimestamp = builder.updateTimestamp;
     }
 
-    public static class OrderBuilder {
+    public static class OrderVOBuilder {
+        private String version;
         private Long orderId;
         private Long customerId;
         private Long itemId;
@@ -70,51 +58,64 @@ public class Order {
         private Date createTimestamp;
         private Date updateTimestamp;
 
-        public static OrderBuilder newBuilder(){
-            return new OrderBuilder();
+        public static OrderVOBuilder newBuilder(){
+            return new OrderVOBuilder();
         }
-        public Order build(){
-            return new Order(this);
+        public OrderVO build(){
+            return new OrderVO(this);
         }
 
-        public OrderBuilder orderId(Long orderId) {
+        public OrderVOBuilder version(String version) {
+            this.version = version;
+            return this;
+        }
+
+        public OrderVOBuilder orderId(Long orderId) {
             this.orderId = orderId;
             return this;
         }
 
-        public OrderBuilder customerId(Long customerId) {
+        public OrderVOBuilder customerId(Long customerId) {
             this.customerId = customerId;
             return this;
         }
 
-        public OrderBuilder itemId(Long itemId) {
+        public OrderVOBuilder itemId(Long itemId) {
             this.itemId = itemId;
             return this;
         }
 
-        public OrderBuilder shipmentId(Long shipmentId) {
+        public OrderVOBuilder shipmentId(Long shipmentId) {
             this.shipmentId = shipmentId;
             return this;
         }
 
-        public OrderBuilder shipmentAddress(String shipmentAddress) {
+        public OrderVOBuilder shipmentAddress(String shipmentAddress) {
             this.shipmentAddress = shipmentAddress;
             return this;
         }
 
-        public OrderBuilder createTimestamp(Date createTimestamp) {
+        public OrderVOBuilder createTimestamp(Date createTimestamp) {
             this.createTimestamp = createTimestamp;
             return this;
         }
 
-        public OrderBuilder updateTimestamp(Date updateTimestamp) {
+        public OrderVOBuilder updateTimestamp(Date updateTimestamp) {
             this.updateTimestamp = updateTimestamp;
             return this;
         }
 
-        public Order emptyOrder() {
-            return new Order(0L, 0L, 0L, 0L, new Date(), new Date());
+        public OrderVO emptyOrder() {
+            return new OrderVO(0L, 0L, 0L, 0L, new Date(), new Date());
         }
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 
     public Long getOrderId() {

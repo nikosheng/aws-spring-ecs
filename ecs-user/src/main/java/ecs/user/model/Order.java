@@ -53,6 +53,7 @@ public class Order {
         this.orderId = builder.orderId;
         this.customerId = builder.customerId;
         this.itemId = builder.itemId;
+        this.shipmentId = builder.shipmentId;
         this.shipmentAddress = builder.shipmentAddress;
         this.createTimestamp = builder.createTimestamp;
         this.updateTimestamp = builder.updateTimestamp;
