@@ -1,4 +1,5 @@
 FROM openjdk:8-jdk-alpine
+RUN apk add --update curl
 VOLUME /tmp
 EXPOSE 8002
 ADD target/*.jar app.jar
