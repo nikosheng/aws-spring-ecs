@@ -29,4 +29,4 @@ kafka:
     id: ${KAFKA_GROUP_ID:group-1}
 
 version:
-  tag: v2
+  tag: ${VERSION:test}
