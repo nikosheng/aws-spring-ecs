@@ -1,5 +1,5 @@
 variables:
   order:
-    uri: http://ecs-order.ecommerce.com:8000
+    uri: http://localhost:8000
   shipment:
-    uri: http://ecs-shipment.ecommerce.com:8001
+    uri: http://localhost:8001

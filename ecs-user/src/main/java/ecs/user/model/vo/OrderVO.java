@@ -3,7 +3,7 @@ package ecs.user.model.vo;
 import java.util.Date;
 
 public class OrderVO {
-    private String version;
+    private String ip;
 
     private Long orderId;
 
@@ -38,7 +38,7 @@ public class OrderVO {
     }
 
     public OrderVO(OrderVOBuilder builder) {
-        this.version = builder.version;
+        this.ip = builder.ip;
         this.orderId = builder.orderId;
         this.customerId = builder.customerId;
         this.itemId = builder.itemId;
@@ -49,7 +49,7 @@ public class OrderVO {
     }
 
     public static class OrderVOBuilder {
-        private String version;
+        private String ip;
         private Long orderId;
         private Long customerId;
         private Long itemId;
@@ -65,8 +65,8 @@ public class OrderVO {
             return new OrderVO(this);
         }
 
-        public OrderVOBuilder version(String version) {
-            this.version = version;
+        public OrderVOBuilder ip(String ip) {
+            this.ip = ip;
             return this;
         }
 
@@ -110,12 +110,12 @@ public class OrderVO {
         }
     }
 
-    public String getVersion() {
-        return version;
+    public String getIp() {
+        return ip;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
     public Long getOrderId() {
