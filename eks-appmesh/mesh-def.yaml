@@ -1,0 +1,207 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: prod
+  labels:
+    mesh: ecommerce
+    appmesh.k8s.aws/sidecarInjectorWebhook: enabled
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: Mesh
+metadata:
+  name: ecommerce
+spec:
+  namespaceSelector:
+    matchLabels:
+      mesh: ecommerce
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualNode
+metadata:
+  name: user
+  namespace: prod
+spec:
+  podSelector:
+    matchLabels:
+      app: user
+  listeners:
+    - portMapping:
+        port: 8002
+        protocol: http
+      healthCheck:
+        protocol: http
+        path: '/api/v1/actuator'
+        healthyThreshold: 2
+        unhealthyThreshold: 2
+        timeoutMillis: 10000
+        intervalMillis: 10000
+  backends:
+    - virtualService:
+        virtualServiceRef:
+          name: order
+  serviceDiscovery:
+    awsCloudMap:
+      namespaceName: ecommerce.com
+      serviceName: user.prod
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualNode
+metadata:
+  name: order-v1
+  namespace: prod
+spec:
+  podSelector:
+    matchLabels:
+      app: order
+      version: v1
+  listeners:
+    - portMapping:
+        port: 8000
+        protocol: http
+      healthCheck:
+        protocol: http
+        path: '/api/v1/actuator'
+        healthyThreshold: 2
+        unhealthyThreshold: 2
+        timeoutMillis: 10000
+        intervalMillis: 10000
+  serviceDiscovery:
+    awsCloudMap:
+      namespaceName: ecommerce.com
+      serviceName: order.prod
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualService
+metadata:
+  name: order
+  namespace: prod
+spec:
+  awsName: order.prod.ecommerce.com
+  provider:
+    virtualRouter:
+      virtualRouterRef:
+        name: order-router
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualRouter
+metadata:
+  name: order-router
+  namespace: prod
+spec:
+  listeners:
+    - portMapping:
+        port: 8000
+        protocol: http
+  routes:
+    - name: order-route
+      httpRoute:
+        match:
+          prefix: /
+        action:
+          weightedTargets:
+            - virtualNodeRef:
+                name: order-v1
+              weight: 100
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user
+  namespace: prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: user
+        version: v1
+    spec:
+      containers:
+        - name: user
+          image: "379951292773.dkr.ecr.ap-southeast-1.amazonaws.com/ecs-user:latest"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8002
+          env:
+            - name: "ORDER_HOSTNAME"
+              value: "order.prod"
+            - name: "SHIPMENT_HOSTNAME"
+              value: "shipment.prod"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-v1
+  namespace: prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order
+      version: v1
+  template:
+    metadata:
+      annotations:
+        appmesh.k8s.aws/egressIgnoredPorts: "22,3306,9092"
+      labels:
+        app: order
+        version: v1
+    spec:
+      containers:
+      - name: order
+        image: 379951292773.dkr.ecr.ap-southeast-1.amazonaws.com/ecs-order:latest
+        imagePullPolicy: Always
+        env:
+          - name: "KAFKA_BROKDER"
+            value: "b-2.dev-cluster.s07eh2.c2.kafka.ap-southeast-1.amazonaws.com:9092,b-1.dev-cluster.s07eh2.c2.kafka.ap-southeast-1.amazonaws.com:9092"
+          - name: "KAFKA_GROUP_ID"
+            value: "group-1"
+          - name: "RDS_DB_NAME"
+            value: "demo"
+          - name: "RDS_HOSTNAME"
+            value: "aws-dev.csvkyiskksyu.ap-southeast-1.rds.amazonaws.com"
+          - name: "RDS_PASSWORD"
+            value: "abcd1234"
+          - name: "RDS_PORT"
+            value: "3306"
+          - name: "RDS_USERNAME"
+            value: "admin"
+          - name: "VERSION"
+            value: "eks-order-v1"
+        ports:
+        - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user
+  namespace: prod
+  labels:
+    app: user
+spec:
+  ports:
+  - port: 8002
+    name: http
+  selector:
+    app: user
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-v1
+  namespace: prod
+  labels:
+    app: order
+    version: v1
+spec:
+  ports:
+  - port: 8000
+    name: http
+  selector:
+    app: order
+    version: v1
