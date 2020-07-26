@@ -1,0 +1,63 @@
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualRouter
+metadata:
+  name: order-router
+  namespace: prod
+spec:
+  listeners:
+    - portMapping:
+        port: 8000
+        protocol: http
+  routes:
+    - name: order-route
+      httpRoute:
+        match:
+          prefix: /
+        action:
+          weightedTargets:
+            - virtualNodeRef:
+                name: order-v1
+              weight: 30
+            - virtualNodeRef:
+                name: order-v2
+              weight: 40
+            - virtualNodeRef:
+                name: ecs-order-v1
+              weight: 30
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualNode
+metadata:
+  name: ecs-order-v1
+  namespace: prod
+spec:
+  listeners:
+    - portMapping:
+        port: 8000
+        protocol: http
+  serviceDiscovery:
+    awsCloudMap:
+      namespaceName: ecommerce.com
+      serviceName: ecs-order
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualNode
+metadata:
+  name: ecs-user
+  namespace: prod
+spec:
+  listeners:
+    - portMapping:
+        port: 8002
+        protocol: http
+  serviceDiscovery:
+    awsCloudMap:
+      namespaceName: ecommerce.com
+      serviceName: ecs-user
+  backends:
+    - virtualService:
+        virtualServiceRef:
+          name: order
+---
+---
