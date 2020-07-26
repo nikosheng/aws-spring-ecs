@@ -3,6 +3,10 @@ package ecs.order.model.vo;
 import java.util.Date;
 
 public class OrderVO {
+    private String tag;
+
+    private String version;
+
     private String ip;
 
     private Long orderId;
@@ -38,6 +42,8 @@ public class OrderVO {
     }
 
     public OrderVO(OrderVOBuilder builder) {
+        this.tag = builder.tag;
+        this.version = builder.version;
         this.ip = builder.ip;
         this.orderId = builder.orderId;
         this.customerId = builder.customerId;
@@ -49,6 +55,8 @@ public class OrderVO {
     }
 
     public static class OrderVOBuilder {
+        private String tag;
+        private String version;
         private String ip;
         private Long orderId;
         private Long customerId;
@@ -63,6 +71,16 @@ public class OrderVO {
         }
         public OrderVO build(){
             return new OrderVO(this);
+        }
+
+        public OrderVOBuilder tag(String tag) {
+            this.tag = tag;
+            return this;
+        }
+
+        public OrderVOBuilder version(String version) {
+            this.version = version;
+            return this;
         }
 
         public OrderVOBuilder ip(String ip) {
@@ -108,6 +126,22 @@ public class OrderVO {
         public OrderVO emptyOrder() {
             return new OrderVO(0L, 0L, 0L, 0L, new Date(), new Date());
         }
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 
     public String getIp() {
